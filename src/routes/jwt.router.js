@@ -1,10 +1,5 @@
 import { Router } from 'express';
-
-
-//import userModel from '../models/user.model.js';
-
 import userModel from '../dao/models/user.model.js';
-
 import { isValidPassword } from '../utils.js';
 import { generateJWToken } from '../utils.js';
 
@@ -28,15 +23,13 @@ router.post("/login", async (req, res) => {
             name: `${user.first_name} ${user.last_name}`,
             email: user.email,
             age: user.age,
-            role: user.role
+            role: user.role,
+            cart: user.cart
         };
         const access_token = generateJWToken(tokenUser);
         console.log(access_token);
         //1ro con LocalStorage
         //res.send({ message: "Login successful!", jwt: access_token });
-
-
-
 
         //2do con Cookie
         res.cookie('jwtCookieToken', access_token, {
@@ -45,10 +38,6 @@ router.post("/login", async (req, res) => {
             httpOnly: false // expone la cookie
         });
         res.send({ message: "Login successful!" });
- 
-
-
-
 
     } catch (error) {
         console.error(error);
